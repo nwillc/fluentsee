@@ -1,0 +1,15 @@
+
+apply plugin: 'application'
+
+repositories {
+    jcenter()
+}
+
+
+mainClassName = "com.github.nwillc.fluency.Main"
+
+
+dependencies {
+  
+}
+
