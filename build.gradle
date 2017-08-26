@@ -13,6 +13,9 @@ mainClassName = "com.github.nwillc.fluency.Main"
 
 
 dependencies {
-     compile 'org.tinylog:tinylog:' + tiny_log_version
+    compile 'org.tinylog:tinylog:' + tiny_log_version
+
+    testCompile 'org.assertj:assertj-core:' + assertj_version,
+            'junit:junit:4.12'
 }
 
