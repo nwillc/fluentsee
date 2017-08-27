@@ -12,6 +12,7 @@ public class ParserTest {
     private static final String SAMPLE1 = "/sample1.log";
     private static final String TIME_STAMP = "2017-08-25T22:27:56+00:00";
     private static final String CONTAINER = "7f419fc32a89";
+    private static final String LOG = "Hello Fluentd";
     private String sample1;
 
     @Before
@@ -26,6 +27,6 @@ public class ParserTest {
         assertThat(entry).isNotNull();
         assertThat(entry.timeStamp).isEqualTo(TIME_STAMP);
         assertThat(entry.container).isEqualTo(CONTAINER);
-        assertThat(entry.json.get("log")).isEqualTo("Hello Fluentd");
+        assertThat(entry.json.get("log")).isEqualTo(LOG);
     }
 }

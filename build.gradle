@@ -2,6 +2,7 @@
 plugins {
     id 'application'
     id "com.github.nwillc.vplugin" version "2.1.1"
+    id 'com.github.johnrengelman.shadow' version "2.0.1"
 }
 
 repositories {
@@ -9,12 +10,14 @@ repositories {
 }
 
 mainClassName = "com.github.nwillc.fluency.Main"
+version = "1.0"
 
 dependencies {
     compile "org.tinylog:tinylog:$tiny_log_version",
             "com.fasterxml.jackson.core:jackson-core:$jackson_fasterxml_version",
             "com.fasterxml.jackson.core:jackson-databind:$jackson_fasterxml_version",
-            "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_fasterxml_version"
+            "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_fasterxml_version",
+            "net.sf.jopt-simple:jopt-simple:$jopt_version"
 
     testCompile "org.assertj:assertj-core:$assertj_version",
             "junit:junit:$junit_version",
@@ -36,4 +39,10 @@ test {
         showStandardStreams true
         exceptionFormat "full"
     }
+}
+
+shadowJar {
+    baseName = "$project.name-$project.version"
+    classifier = null
+    version = null
 }
