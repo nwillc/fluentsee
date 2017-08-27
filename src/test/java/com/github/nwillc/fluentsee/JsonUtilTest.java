@@ -1,4 +1,4 @@
-package com.github.nwillc.fluency;
+package com.github.nwillc.fluentsee;
 
 
 import com.github.nwillc.contracts.UtilityClassContract;

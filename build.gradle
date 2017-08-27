@@ -9,7 +9,7 @@ repositories {
     jcenter()
 }
 
-mainClassName = "com.github.nwillc.fluency.Main"
+mainClassName = "com.github.nwillc.fluentsee.Main"
 version = "1.0"
 
 dependencies {

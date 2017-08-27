@@ -1,4 +1,4 @@
-package com.github.nwillc.fluency;
+package com.github.nwillc.fluentsee;
 
 import java.util.Map;
 
