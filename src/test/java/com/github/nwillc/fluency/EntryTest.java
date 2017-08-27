@@ -1,5 +1,3 @@
-
-
 package com.github.nwillc.fluency;
 
 
@@ -11,7 +9,7 @@ public class EntryTest {
 
     private static final String TIME_STAMP = "1234567";
     private static final String CONTAINER = "DEADBEEF";
-    private static final String JSON = "{}";
+    private static final String JSON = "{ \"foo\": \"bar\" }";
 
     @Test
     public void testSanity() throws Exception {
@@ -19,6 +17,6 @@ public class EntryTest {
 
         assertThat(entry.timeStamp).isEqualTo(TIME_STAMP);
         assertThat(entry.container).isEqualTo(CONTAINER);
-        assertThat(entry.json).isEqualTo(JSON);
+        assertThat(entry.json.get("foo")).isEqualTo("bar");
     }
 }

@@ -1,4 +1,3 @@
-
 package com.github.nwillc.fluency;
 
 import org.junit.Before;
@@ -13,7 +12,6 @@ public class ParserTest {
     private static final String SAMPLE1 = "/sample1.log";
     private static final String TIME_STAMP = "2017-08-25T22:27:56+00:00";
     private static final String CONTAINER = "7f419fc32a89";
-    private static final String JSON = "{\"container_id\":\"7f419fc32a891b2ed7ff1088c529138ddd5729802070f8928cb504e9d68192f2\",\"container_name\":\"/hungry_shockley\",\"source\":\"stdout\",\"log\":\"Hello Fluentd\"}";
     private String sample1;
 
     @Before
@@ -28,6 +26,6 @@ public class ParserTest {
         assertThat(entry).isNotNull();
         assertThat(entry.timeStamp).isEqualTo(TIME_STAMP);
         assertThat(entry.container).isEqualTo(CONTAINER);
-        assertThat(entry.json).isEqualTo(JSON);
+        assertThat(entry.json.get("log")).isEqualTo("Hello Fluentd");
     }
 }

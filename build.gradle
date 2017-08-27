@@ -8,14 +8,32 @@ repositories {
     jcenter()
 }
 
-
 mainClassName = "com.github.nwillc.fluency.Main"
 
-
 dependencies {
-    compile 'org.tinylog:tinylog:' + tiny_log_version
+    compile "org.tinylog:tinylog:$tiny_log_version",
+            "com.fasterxml.jackson.core:jackson-core:$jackson_fasterxml_version",
+            "com.fasterxml.jackson.core:jackson-databind:$jackson_fasterxml_version",
+            "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_fasterxml_version"
 
-    testCompile 'org.assertj:assertj-core:' + assertj_version,
-            'junit:junit:4.12'
+    testCompile "org.assertj:assertj-core:$assertj_version",
+            "junit:junit:$junit_version",
+            "com.github.nwillc:jdk_contract_tests:$jdk_contract_tests_version"
 }
 
+test {
+    beforeTest { descriptor ->
+        logger.lifecycle("\tRunning $descriptor.className.$descriptor.name")
+    }
+
+    afterSuite { descriptor, result ->
+       if (descriptor.parent == null) {
+            logger.lifecycle("\tTests run: $result.testCount, Failures: $result.failedTestCount, Skipped: $result.skippedTestCount")
+        }
+    }
+
+    testLogging {
+        showStandardStreams true
+        exceptionFormat "full"
+    }
+}

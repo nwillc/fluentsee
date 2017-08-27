@@ -1,4 +1,3 @@
-
 package com.github.nwillc.fluency;
 
 
@@ -10,7 +9,7 @@ public class Parser {
         final Pattern pattern = Pattern.compile("([^\\s]+)\\s+([a-z0-9]+)\\s+(\\{.*})");
         final Matcher matcher = pattern.matcher(sample1);
 
-        if(!matcher.find()) {
+        if (!matcher.find()) {
             return null;
         }
 
