@@ -7,16 +7,14 @@ package com.github.nwillc.fluentsee.predicates;
 
 
 import com.github.nwillc.fluentsee.Entry;
-import com.github.nwillc.fluentsee.predicates.ContainerPredicate;
+import com.github.nwillc.fluentsee.EntryTest;
 import org.junit.Test;
 
+import static com.github.nwillc.fluentsee.EntryTest.CONTAINER;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class ContainerPredicateTest {
-    private static final String TIME_STAMP = "1234567";
-    private static final String CONTAINER = "DEADBEEF";
-    private static final String JSON = "{ \"foo\": \"bar\" }";
-    private static final Entry entry = new Entry(TIME_STAMP, CONTAINER, JSON);
+    private static final Entry entry = EntryTest.getSample();
 
     @Test
     public void testContainerStringEquals() throws Exception {
