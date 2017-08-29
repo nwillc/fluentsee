@@ -36,6 +36,8 @@ public class EntryPredicate implements Predicate<Entry> {
         } else if (field.startsWith("json.")) {
             final String jsonStr = field.substring(5);
             accessor = e -> e.json.get(jsonStr).toString();
+        } else {
+            throw new IllegalArgumentException("Unknown match field: " + field);
         }
 
         return new EntryPredicate(regex, accessor);
