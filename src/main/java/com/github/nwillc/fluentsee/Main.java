@@ -29,7 +29,8 @@ public final class Main {
         if (options.has(CLI.match.name())) {
             final List<?> matches = options.valuesOf(CLI.match.name());
             for (Object match : matches) {
-                predicate.set(EntryPredicate.fromDescription(match.toString()));
+                final EntryPredicate newPredicate = EntryPredicate.fromDescription(match.toString());
+                predicate.set(newPredicate.and(predicate.get()));
             }
         }
 
