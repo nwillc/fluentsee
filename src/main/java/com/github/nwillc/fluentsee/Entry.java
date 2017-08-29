@@ -12,4 +12,9 @@ public class Entry {
         this.container = container;
         this.json = JsonUtil.toMap(json);
     }
+
+    @Override
+    public String toString() {
+        return " " + timeStamp + " " + json.get("container_name") + " " + json.get("log");
+    }
 }
