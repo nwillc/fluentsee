@@ -10,6 +10,10 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 public class EntryPredicate implements Predicate<Entry> {
+    public static final String CONTAINER = "container";
+    public static final String TIMESTAMP = "timestamp";
+    public static final String JSON = "json.";
+    public static final char EQUALS = '=';
     private final Function<Entry,String> accessor;
     private Pattern regex;
 
@@ -24,16 +28,16 @@ public class EntryPredicate implements Predicate<Entry> {
     }
 
     public static EntryPredicate fromDescription(String str) {
-        final int index = str.indexOf('=');
+        final int index = str.indexOf(EQUALS);
         final String field = str.substring(0,index);
         final String regex = str.substring(index + 1);
 
-        Function<Entry, String> accessor = null;
-        if (field.equals("container")) {
+        Function<Entry, String> accessor;
+        if (field.equals(CONTAINER)) {
             accessor = e -> e.container;
-        } else if (field.equals("timestamp")) {
+        } else if (field.equals(TIMESTAMP)) {
             accessor = e -> e.container;
-        } else if (field.startsWith("json.")) {
+        } else if (field.startsWith(JSON)) {
             final String jsonStr = field.substring(5);
             accessor = e -> e.json.get(jsonStr).toString();
         } else {

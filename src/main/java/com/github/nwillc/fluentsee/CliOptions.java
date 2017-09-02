@@ -8,6 +8,7 @@ final public class CliOptions {
     public enum CLI {
         log,
         match,
+        verbose,
         help
     }
 
@@ -24,6 +25,7 @@ final public class CliOptions {
         parser.accepts(CLI.match.name(),"Define a match for filtering output. May pass in multiple matches.")
                 .withRequiredArg().ofType(String.class)
                 .describedAs("field=regex");
+        parser.accepts(CLI.verbose.name(), "Print verbose format entries.");
         return parser;
     }
 }

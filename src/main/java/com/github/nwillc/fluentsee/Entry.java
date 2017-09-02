@@ -15,6 +15,10 @@ public class Entry {
 
     @Override
     public String toString() {
-        return " " + timeStamp + " " + json.get("container_name") + " " + json.get("log");
+        return json.get("log").toString();
+    }
+
+    public String toVerboseString() {
+        return json.get("container_name") + " " + toString();
     }
 }

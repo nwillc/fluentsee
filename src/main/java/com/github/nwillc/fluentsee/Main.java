@@ -10,16 +10,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static com.github.nwillc.fluentsee.CliOptions.*;
+import static com.github.nwillc.fluentsee.CliOptions.CLI;
+import static com.github.nwillc.fluentsee.CliOptions.getOptions;
 
 public final class Main {
     public static void main(String[] args) throws IOException {
         final OptionParser parser = getOptions();
         final OptionSet options = parser.parse(args);
         final AtomicReference<Predicate<Entry>> predicate = new AtomicReference<>(e -> true);
+        final Function<Entry, String> output;
 
         if (options.has(CLI.help.name())) {
             parser.printHelpOn(System.out);
@@ -36,12 +39,18 @@ public final class Main {
 
         final String log = (String) options.valueOf(CLI.log.name());
 
+        if (options.has(CLI.verbose.name())) {
+            output = e -> e.toVerboseString();
+        } else {
+            output = e -> e.toString();
+        }
+
         try (Stream<String> stream = Files.lines(Paths.get(log))) {
 
             stream.forEach(line -> {
                 final Entry entry = Parser.parseEntry(line);
                 if (predicate.get().test(entry)) {
-                    System.out.println(entry);
+                    System.out.println(output.apply(entry));
                 }
             });
 
