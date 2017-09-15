@@ -11,29 +11,23 @@
  * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.github.nwillc.fluentsee;
+package com.github.nwillc.fluentsee.util;
 
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.github.nwillc.fluentsee.Entry;
 
-import java.io.IOException;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public final class JsonUtil {
-    private static final ThreadLocal<ObjectMapper> JSON_MAPPER = ThreadLocal.withInitial(() ->
-            new ObjectMapper().registerModule(new Jdk8Module())
-                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
+public class Parser {
+    public static Entry parseEntry(String sample1) {
+        final Pattern pattern = Pattern.compile("([^\\s]+)\\s+([a-z0-9]+)\\s+(\\{.*})");
+        final Matcher matcher = pattern.matcher(sample1);
 
-    private JsonUtil() {
-    }
-
-    public static Map toMap(String json) {
-        try {
-            return JSON_MAPPER.get().readValue(json, Map.class);
-        } catch (IOException e) {
-            throw new RuntimeException("JSON parsing", e);
+        if (!matcher.find()) {
+            return null;
         }
+
+        return new Entry(matcher.group(1), matcher.group(2), matcher.group(3));
     }
 }

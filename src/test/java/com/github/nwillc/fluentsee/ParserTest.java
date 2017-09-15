@@ -13,6 +13,7 @@
 
 package com.github.nwillc.fluentsee;
 
+import com.github.nwillc.fluentsee.util.Parser;
 import org.junit.Before;
 import org.junit.Test;
 

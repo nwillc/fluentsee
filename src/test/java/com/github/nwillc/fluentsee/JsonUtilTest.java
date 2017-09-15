@@ -15,6 +15,7 @@ package com.github.nwillc.fluentsee;
 
 
 import com.github.nwillc.contracts.UtilityClassContract;
+import com.github.nwillc.fluentsee.util.JsonUtil;
 import org.junit.Test;
 
 import java.util.Map;

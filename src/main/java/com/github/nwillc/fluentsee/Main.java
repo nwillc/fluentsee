@@ -14,18 +14,22 @@
 package com.github.nwillc.fluentsee;
 
 
+import com.github.nwillc.fluentsee.util.FileIterator;
+import com.github.nwillc.fluentsee.util.Parser;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import org.pmw.tinylog.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static com.github.nwillc.fluentsee.CliOptions.CLI;
 import static com.github.nwillc.fluentsee.CliOptions.getOptions;
@@ -58,19 +62,21 @@ public final class Main {
             output = e -> e.toString();
         }
 
-        try (Stream<String> stream = Files.lines(Paths.get(log))) {
-
-            stream.forEach(line -> {
-                final Entry entry = Parser.parseEntry(line);
-                if (predicate.get().test(entry)) {
-                    System.out.println(output.apply(entry));
-                }
-            });
-
-        } catch (IOException e) {
-            Logger.error("Exception reading file", e);
+        final Stream<String> stream;
+        if (options.has(CLI.tail.name())) {
+            final FileIterator fileIterator = new FileIterator(log, true);
+            final Spliterator<String> stringSpliterator = Spliterators.spliteratorUnknownSize(fileIterator, 0);
+            stream = StreamSupport.stream(stringSpliterator, false);
+        } else {
+            stream = Files.lines(Paths.get(log));
         }
 
+        stream.forEach(line -> {
+            final Entry entry = Parser.parseEntry(line);
+            if (predicate.get().test(entry)) {
+                System.out.println(output.apply(entry));
+            }
+        });
     }
 
     private static void accept(String s) {

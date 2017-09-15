@@ -11,29 +11,29 @@
  * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.github.nwillc.fluentsee;
+package com.github.nwillc.fluentsee.util;
 
-import com.github.nwillc.fluentsee.util.JsonUtil;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+
+import java.io.IOException;
 import java.util.Map;
 
-public class Entry {
-    public final String timeStamp;
-    public final String container;
-    public final Map json;
+public final class JsonUtil {
+    private static final ThreadLocal<ObjectMapper> JSON_MAPPER = ThreadLocal.withInitial(() ->
+            new ObjectMapper().registerModule(new Jdk8Module())
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
 
-    public Entry(String timeStamp, String container, String json) {
-        this.timeStamp = timeStamp;
-        this.container = container;
-        this.json = JsonUtil.toMap(json);
+    private JsonUtil() {
     }
 
-    @Override
-    public String toString() {
-        return json.get("log").toString();
-    }
-
-    public String toVerboseString() {
-        return json.get("container_name") + " " + toString();
+    public static Map toMap(String json) {
+        try {
+            return JSON_MAPPER.get().readValue(json, Map.class);
+        } catch (IOException e) {
+            throw new RuntimeException("JSON parsing", e);
+        }
     }
 }
