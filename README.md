@@ -10,13 +10,14 @@ Build it and run with the `--help` option:
 ```bash
 $ ./gradlew shadowJar
 $ java -jar build/libs/fluentsee-1.0.jar --help
-            Option (* = required) Description
-            --------------------- -----------
-            --help Get command line help.
-            * --log  Log file to use.
-            --match  Define a match for filtering output. 
-                                          May pass in multiple matches.
-            --verbose Print verbose format entries.
+Option (* = required)          Description
+---------------------          -----------
+--help                         Get command line help.
+* --log <String: filename>     Log file to use.
+--match <String: field=regex>  Define a match for filtering output. May pass in
+                                 multiple matches.
+--tail                         Tail the log.
+--verbose                      Print verbose format entries.
 ```
 
 ## See Also
