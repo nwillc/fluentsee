@@ -20,6 +20,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -60,7 +61,7 @@ public final class Main {
             output = e -> e.toString();
         }
 
-        final FileIterator fileIterator = new FileIterator(log, options.has(CLI.tail.name()));
+        final Iterator<String> fileIterator = new FileIterator(log, options.has(CLI.tail.name()));
         final Spliterator<String> stringSpliterator = Spliterators.spliteratorUnknownSize(fileIterator, 0);
         final Stream<String> stream = StreamSupport.stream(stringSpliterator, false);
 
@@ -70,10 +71,5 @@ public final class Main {
                 System.out.println(output.apply(entry));
             }
         });
-    }
-
-    private static void accept(String s) {
-        Entry entry = Parser.parseEntry(s);
-        System.out.println(entry);
     }
 }

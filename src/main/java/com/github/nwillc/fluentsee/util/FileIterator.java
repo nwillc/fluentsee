@@ -17,11 +17,13 @@ package com.github.nwillc.fluentsee.util;
 import java.io.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class FileIterator implements Iterator<String>, AutoCloseable {
-    final private FileReader fileReader;
-    final private BufferedReader reader;
-    final private boolean tail;
+    public static final long READ_DELAY = 200L;
+    private final FileReader fileReader;
+    private final BufferedReader reader;
+    private final boolean tail;
     private String next;
 
     public FileIterator(String path) throws FileNotFoundException {
@@ -36,11 +38,7 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
 
     @Override
     public boolean hasNext() {
-        try {
-            next = reader.readLine();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        next = readLine();
         return tail ? true : next != null;
     }
 
@@ -53,15 +51,11 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
 
             while (next == null) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(READ_DELAY);
                 } catch (InterruptedException e) {
-                    // ignore
+                    // ignored
                 }
-                try {
-                    next = reader.readLine();
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
+                next = readLine();
             }
         }
         return next;
@@ -71,5 +65,13 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
     public void close() throws Exception {
         fileReader.close();
         reader.close();
+    }
+
+    private String readLine() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

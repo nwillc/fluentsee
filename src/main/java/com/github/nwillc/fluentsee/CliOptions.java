@@ -17,13 +17,13 @@ package com.github.nwillc.fluentsee;
 
 import joptsimple.OptionParser;
 
-final public class CliOptions {
+public final class CliOptions {
     public enum CLI {
+        help,
         log,
         match,
-        verbose,
         tail,
-        help
+        verbose
     }
 
     private CliOptions() {
@@ -39,7 +39,7 @@ final public class CliOptions {
         parser.accepts(CLI.match.name(),"Define a match for filtering output. May pass in multiple matches.")
                 .withRequiredArg().ofType(String.class)
                 .describedAs("field=regex");
-        parser.accepts(CLI.tail.name(), "Tail the log.");
+        parser.accepts(CLI.tail.name(), "Actively tail the log.");
         parser.accepts(CLI.verbose.name(), "Print verbose format entries.");
         return parser;
     }

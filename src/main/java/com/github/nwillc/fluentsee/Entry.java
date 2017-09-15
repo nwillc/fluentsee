@@ -18,6 +18,8 @@ import com.github.nwillc.fluentsee.util.JsonUtil;
 import java.util.Map;
 
 public class Entry {
+    public static final String LOG = "log";
+    public static final String CONTAINER_NAME = "container_name";
     public final String timeStamp;
     public final String container;
     public final Map json;
@@ -30,10 +32,10 @@ public class Entry {
 
     @Override
     public String toString() {
-        return json.get("log").toString();
+        return json.get(LOG).toString();
     }
 
     public String toVerboseString() {
-        return json.get("container_name") + " " + toString();
+        return json.get(CONTAINER_NAME) + " " + toString();
     }
 }

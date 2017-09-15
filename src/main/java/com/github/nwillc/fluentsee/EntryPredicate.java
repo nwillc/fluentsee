@@ -28,7 +28,7 @@ public class EntryPredicate implements Predicate<Entry> {
     public static final String JSON = "json.";
     public static final char EQUALS = '=';
     private final Function<Entry,String> accessor;
-    private Pattern regex;
+    private final Pattern regex;
 
     public EntryPredicate(String regex, Function<Entry, String> accessor) {
         this.accessor = accessor;
