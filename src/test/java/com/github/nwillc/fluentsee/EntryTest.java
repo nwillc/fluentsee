@@ -34,6 +34,6 @@ public class EntryTest {
     }
 
     public static Entry getSample() {
-        return  new Entry(TIME_STAMP, CONTAINER, JSON);
+        return new Entry(TIME_STAMP, CONTAINER, JSON);
     }
 }

@@ -17,14 +17,12 @@ package com.github.nwillc.fluentsee.util;
 import java.io.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 
 public class FileIterator implements Iterator<String>, AutoCloseable {
-    public static final long READ_DELAY = 200L;
-    private final FileReader fileReader;
-    private final BufferedReader reader;
-    private final boolean tail;
-    private String next;
+    final private FileReader fileReader;
+    final private BufferedReader reader;
+    final private boolean tail;
+    private String nextLine = null;
 
     public FileIterator(String path) throws FileNotFoundException {
         this(path, false);
@@ -38,33 +36,37 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
 
     @Override
     public boolean hasNext() {
-        next = readLine();
-        return tail ? true : next != null;
+        if (tail == true || nextLine != null) {
+            return true;
+        } else {
+            nextLine = readLine();
+            return nextLine != null;
+        }
     }
 
     @Override
     public String next() {
-        if (next == null) {
-            if (!tail) {
-                throw new NoSuchElementException();
-            }
-
-            while (next == null) {
+        if (nextLine != null || hasNext()) {
+            String line = nextLine;
+            nextLine = null;
+            return line;
+        } else if (tail == true) {
+            while (true) {
                 try {
-                    Thread.sleep(READ_DELAY);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    // ignored
+                    // ignore
                 }
-                next = readLine();
+                nextLine = readLine();
+                if (nextLine != null) {
+                    String line = nextLine;
+                    nextLine = null;
+                    return line;
+                }
             }
+        } else {
+            throw new NoSuchElementException();
         }
-        return next;
-    }
-
-    @Override
-    public void close() throws Exception {
-        fileReader.close();
-        reader.close();
     }
 
     private String readLine() {
@@ -73,5 +75,11 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        fileReader.close();
+        reader.close();
     }
 }

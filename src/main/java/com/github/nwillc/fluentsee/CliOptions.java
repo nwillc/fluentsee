@@ -1,5 +1,3 @@
-
-
 /*
  * Copyright 2017 nwillc@gmail.com
  *
@@ -36,7 +34,7 @@ public final class CliOptions {
                 .withRequiredArg().ofType(String.class)
                 .describedAs("filename")
                 .required();
-        parser.accepts(CLI.match.name(),"Define a match for filtering output. May pass in multiple matches.")
+        parser.accepts(CLI.match.name(), "Define a match for filtering output. May pass in multiple matches.")
                 .withRequiredArg().ofType(String.class)
                 .describedAs("field=regex");
         parser.accepts(CLI.tail.name(), "Actively tail the log.");

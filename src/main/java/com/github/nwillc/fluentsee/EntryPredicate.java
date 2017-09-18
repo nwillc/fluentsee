@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017 nwillc@gmail.com
  *
@@ -27,7 +26,7 @@ public class EntryPredicate implements Predicate<Entry> {
     public static final String TIMESTAMP = "timestamp";
     public static final String JSON = "json.";
     public static final char EQUALS = '=';
-    private final Function<Entry,String> accessor;
+    private final Function<Entry, String> accessor;
     private final Pattern regex;
 
     public EntryPredicate(String regex, Function<Entry, String> accessor) {
@@ -42,7 +41,7 @@ public class EntryPredicate implements Predicate<Entry> {
 
     public static EntryPredicate fromDescription(String str) {
         final int index = str.indexOf(EQUALS);
-        final String field = str.substring(0,index);
+        final String field = str.substring(0, index);
         final String regex = str.substring(index + 1);
 
         Function<Entry, String> accessor;

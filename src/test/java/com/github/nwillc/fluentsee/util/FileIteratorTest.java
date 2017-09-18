@@ -13,9 +13,12 @@
 
 package com.github.nwillc.fluentsee.util;
 
+import com.github.nwillc.contracts.IteratorContract;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
+import java.io.UncheckedIOException;
+import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
@@ -24,13 +27,24 @@ import java.util.stream.StreamSupport;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class FileIteratorTest {
+public class FileIteratorTest extends IteratorContract {
 
     public static final int EXPECTED_SIZE = 3521;
 
+    @Override
+    protected Iterator getNonEmptyIterator() {
+        try {
+            return new FileIterator("src/test/resources/sample1.log");
+        } catch (FileNotFoundException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     @Test
     public void testBadFile() throws Exception {
-        assertThatThrownBy(() -> { new FileIterator("foo");}).isInstanceOf(FileNotFoundException.class);
+        assertThatThrownBy(() -> {
+            new FileIterator("foo");
+        }).isInstanceOf(FileNotFoundException.class);
     }
 
     @Test
@@ -43,9 +57,10 @@ public class FileIteratorTest {
         final FileIterator fileIterator = new FileIterator("src/test/resources/sample2.log");
 
         assertThat(fileIterator.hasNext()).isTrue();
-        int lines = 1;
+        int lines = 0;
 
         while (fileIterator.hasNext()) {
+            fileIterator.next();
             lines++;
         }
 
