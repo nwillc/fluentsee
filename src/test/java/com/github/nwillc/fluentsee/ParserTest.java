@@ -13,6 +13,7 @@
 
 package com.github.nwillc.fluentsee;
 
+import com.github.nwillc.contracts.UtilityClassContract;
 import com.github.nwillc.fluentsee.util.Parser;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class ParserTest {
+public class ParserTest extends UtilityClassContract {
     private static final String SAMPLE1 = "/sample1.log";
     private static final String TIME_STAMP = "2017-08-25T22:27:56+00:00";
     private static final String CONTAINER = "7f419fc32a89";
@@ -32,6 +33,11 @@ public class ParserTest {
     @Before
     public void setUp() throws Exception {
         sample1 = new String(Files.readAllBytes(Paths.get(getClass().getResource(SAMPLE1).toURI())));
+    }
+
+    @Override
+    public Class<?> getClassToTest() {
+        return Parser.class;
     }
 
     @Test

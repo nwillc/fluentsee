@@ -19,8 +19,10 @@ import com.github.nwillc.fluentsee.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Parser {
-    public static Entry parseEntry(String sample1) {
+public final class Parser {
+    private Parser() {}
+
+    public final static Entry parseEntry(String sample1) {
         final Pattern pattern = Pattern.compile("([^\\s]+)\\s+([a-z0-9]+)\\s+(\\{.*})");
         final Matcher matcher = pattern.matcher(sample1);
 

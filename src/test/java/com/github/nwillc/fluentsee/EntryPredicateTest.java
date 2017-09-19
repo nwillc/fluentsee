@@ -35,31 +35,31 @@ public class EntryPredicateTest {
     public void testContainerStringPattern() throws Exception {
         predicate = EntryPredicate.fromDescription("container=DEAD.+");
         assertThat(predicate).isNotNull();
-        AssertionsForClassTypes.assertThat(predicate.test(entry)).isTrue();
+        assertThat(predicate.test(entry)).isTrue();
     }
 
     @Test
     public void testContainerNonMatch() throws Exception {
         predicate = EntryPredicate.fromDescription("container=foo");
         assertThat(predicate).isNotNull();
-        AssertionsForClassTypes.assertThat(predicate.test(entry)).isFalse();
+        assertThat(predicate.test(entry)).isFalse();
     }
 
     @Test
     public void testJsonMatch() throws Exception {
         predicate = EntryPredicate.fromDescription("json.foo=bar");
-        AssertionsForClassTypes.assertThat(predicate.test(entry)).isTrue();
+        assertThat(predicate.test(entry)).isTrue();
     }
 
     @Test
     public void testJsonMatchRegex() throws Exception {
         predicate = EntryPredicate.fromDescription("json.foo=[a-z]+");
-        AssertionsForClassTypes.assertThat(predicate.test(entry)).isTrue();
+        assertThat(predicate.test(entry)).isTrue();
     }
 
     @Test
     public void testJsonNonMatch() throws Exception {
         predicate = EntryPredicate.fromDescription("json.foo=wombat");
-        AssertionsForClassTypes.assertThat(predicate.test(entry)).isFalse();
+        assertThat(predicate.test(entry)).isFalse();
     }
 }

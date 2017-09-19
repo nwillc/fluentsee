@@ -18,6 +18,8 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.UncheckedIOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -30,11 +32,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class FileIteratorTest extends IteratorContract {
 
     public static final int EXPECTED_SIZE = 3521;
+    public static final Path RESOURCE_DIR = Paths.get("src", "test", "resources");
+    public static final Path SAMPLE1 = Paths.get(RESOURCE_DIR.toString(), "sample1.log");
+    public static final Path SAMPLE2 = Paths.get(RESOURCE_DIR.toString(), "sample2.log");
 
     @Override
     protected Iterator getNonEmptyIterator() {
         try {
-            return new FileIterator("src/test/resources/sample1.log");
+            return new FileIterator(SAMPLE1.toString());
         } catch (FileNotFoundException e) {
             throw new UncheckedIOException(e);
         }
@@ -49,12 +54,12 @@ public class FileIteratorTest extends IteratorContract {
 
     @Test
     public void testGoodFile() throws Exception {
-        new FileIterator("src/test/resources/sample1.log");
+        new FileIterator(SAMPLE1.toString());
     }
 
     @Test
     public void testIterateFile() throws Exception {
-        final FileIterator fileIterator = new FileIterator("src/test/resources/sample2.log");
+        final FileIterator fileIterator = new FileIterator(SAMPLE2.toString());
 
         assertThat(fileIterator.hasNext()).isTrue();
         int lines = 0;
@@ -69,7 +74,7 @@ public class FileIteratorTest extends IteratorContract {
 
     @Test
     public void testInStream() throws Exception {
-        final FileIterator fileIterator = new FileIterator("src/test/resources/sample2.log");
+        final FileIterator fileIterator = new FileIterator(SAMPLE2.toString());
 
         final Spliterator<String> stringSpliterator = Spliterators.spliteratorUnknownSize(fileIterator, 0);
         final Stream<String> stream = StreamSupport.stream(stringSpliterator, false);

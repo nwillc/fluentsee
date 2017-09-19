@@ -19,9 +19,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class FileIterator implements Iterator<String>, AutoCloseable {
-    final private FileReader fileReader;
-    final private BufferedReader reader;
-    final private boolean tail;
+    private static final int WAIT_MILLIS = 200;
+    private final FileReader fileReader;
+    private final BufferedReader reader;
+    private final boolean tail;
     private String nextLine = null;
 
     public FileIterator(String path) throws FileNotFoundException {
@@ -53,7 +54,7 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
         } else if (tail == true) {
             while (true) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(WAIT_MILLIS);
                 } catch (InterruptedException e) {
                     // ignore
                 }

@@ -62,7 +62,8 @@ public final class Main {
         }
 
         final Iterator<String> fileIterator = new FileIterator(log, options.has(CLI.tail.name()));
-        final Spliterator<String> stringSpliterator = Spliterators.spliteratorUnknownSize(fileIterator, 0);
+        final Spliterator<String> stringSpliterator = Spliterators.spliteratorUnknownSize(fileIterator,
+                Spliterator.ORDERED | Spliterator.NONNULL);
         final Stream<String> stream = StreamSupport.stream(stringSpliterator, false);
 
         stream.forEach(line -> {

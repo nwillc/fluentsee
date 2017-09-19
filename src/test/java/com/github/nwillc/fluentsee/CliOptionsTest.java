@@ -14,6 +14,7 @@
 package com.github.nwillc.fluentsee;
 
 import com.github.nwillc.contracts.UtilityClassContract;
+import com.github.nwillc.fluentsee.CliOptions.CLI;
 import org.junit.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -27,6 +28,6 @@ public class CliOptionsTest extends UtilityClassContract {
     @Test
     public void testAllOptionsSupported() throws Exception {
         assertThat(CliOptions.getOptions()).isNotNull();
-        assertThat(CliOptions.getOptions().recognizedOptions()).hasSize(CliOptions.CLI.values().length + 1);
+        assertThat(CliOptions.getOptions().recognizedOptions()).hasSize(CLI.values().length + 1);
     }
 }
