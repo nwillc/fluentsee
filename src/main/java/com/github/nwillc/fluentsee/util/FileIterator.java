@@ -36,7 +36,7 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
 
     @Override
     public boolean hasNext() {
-        if (tail == true || nextLine != null) {
+        if (tail || nextLine != null) {
             return true;
         } else {
             nextLine = readLine();
@@ -46,24 +46,18 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
 
     @Override
     public String next() {
-        if (nextLine != null || hasNext()) {
-            String line = nextLine;
-            nextLine = null;
-            return line;
-        } else if (tail == true) {
-            while (true) {
+        if (nextLine != null || hasNext() || tail) {
+            while (nextLine == null) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     // ignore
                 }
                 nextLine = readLine();
-                if (nextLine != null) {
-                    String line = nextLine;
-                    nextLine = null;
-                    return line;
-                }
             }
+            String line = nextLine;
+            nextLine = null;
+            return line;
         } else {
             throw new NoSuchElementException();
         }
