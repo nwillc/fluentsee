@@ -47,7 +47,7 @@ public class FileIterator implements Iterator<String>, AutoCloseable {
 
     @Override
     public String next() {
-        if (nextLine != null || hasNext() || tail) {
+        if (nextLine != null || hasNext()) {
             while (nextLine == null) {
                 try {
                     Thread.sleep(WAIT_MILLIS);
