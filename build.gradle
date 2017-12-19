@@ -1,16 +1,26 @@
 
-plugins {
-    id 'application'
-    id "com.github.nwillc.vplugin" version "2.1.1"
-    id 'com.github.johnrengelman.shadow' version "2.0.1"
+
+buildscript {
+    repositories {
+        maven { url "https://artifactoryprod.es.ad.adp.com/artifactory/gcc-maven" }
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.github.nwillc:vplugin:2.1.1',
+                'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
 }
 
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.github.nwillc.vplugin'
+
 repositories {
-    jcenter()
+    maven { url "https://artifactoryprod.es.ad.adp.com/artifactory/gcc-maven" }
 }
 
 mainClassName = "com.github.nwillc.fluentsee.Main"
-version = "1.0"
+version = "1.1"
 
 dependencies {
     compile "org.tinylog:tinylog:$tiny_log_version",

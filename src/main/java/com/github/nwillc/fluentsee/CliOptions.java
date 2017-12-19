@@ -21,6 +21,7 @@ public final class CliOptions {
         log,
         match,
         tail,
+        raw,
         verbose
     }
 
@@ -38,6 +39,7 @@ public final class CliOptions {
                 .withRequiredArg().ofType(String.class)
                 .describedAs("field=regex");
         parser.accepts(CLI.tail.name(), "Actively tail the log.");
+        parser.accepts(CLI.raw.name(), "Show raw log entries");
         parser.accepts(CLI.verbose.name(), "Print verbose format entries.");
         return parser;
     }

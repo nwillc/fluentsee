@@ -23,10 +23,12 @@ public class Entry {
     public final String timeStamp;
     public final String container;
     public final Map json;
+    public final String rawJson;
 
     public Entry(String timeStamp, String container, String json) {
         this.timeStamp = timeStamp;
         this.container = container;
+        rawJson = json;
         this.json = JsonUtil.toMap(json);
     }
 
@@ -37,5 +39,9 @@ public class Entry {
 
     public String toVerboseString() {
         return json.get(CONTAINER_NAME) + " " + toString();
+    }
+
+    public String toRawString() {
+        return timeStamp + ' ' + container + ' ' + rawJson;
     }
 }

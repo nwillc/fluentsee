@@ -14,27 +14,23 @@
 package com.github.nwillc.fluentsee;
 
 
-import com.github.nwillc.fluentsee.util.FileIterator;
+import com.github.nwillc.fluentsee.util.FileReader;
 import com.github.nwillc.fluentsee.util.Parser;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static com.github.nwillc.fluentsee.CliOptions.CLI;
 import static com.github.nwillc.fluentsee.CliOptions.getOptions;
 
 public final class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         final OptionParser parser = getOptions();
         final OptionSet options = parser.parse(args);
         final AtomicReference<Predicate<Entry>> predicate = new AtomicReference<>(e -> true);
@@ -57,20 +53,18 @@ public final class Main {
 
         if (options.has(CLI.verbose.name())) {
             output = e -> e.toVerboseString();
+        } else if (options.has(CLI.raw.name())) {
+            output = e -> e.toRawString();
         } else {
             output = e -> e.toString();
         }
 
-        final Iterator<String> fileIterator = new FileIterator(log, options.has(CLI.tail.name()));
-        final Spliterator<String> stringSpliterator = Spliterators.spliteratorUnknownSize(fileIterator,
-                Spliterator.ORDERED | Spliterator.NONNULL);
-        final Stream<String> stream = StreamSupport.stream(stringSpliterator, false);
-
-        stream.forEach(line -> {
+        final FileReader fileReader = new FileReader(new File(log), line -> {
             final Entry entry = Parser.parseEntry(line);
             if (predicate.get().test(entry)) {
                 System.out.println(output.apply(entry));
             }
-        });
+        }, options.has(CLI.tail.name()));
+        fileReader.read();
     }
 }
