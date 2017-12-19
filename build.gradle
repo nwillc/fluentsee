@@ -2,7 +2,7 @@
 
 buildscript {
     repositories {
-        maven { url "https://artifactoryprod.es.ad.adp.com/artifactory/gcc-maven" }
+        jcenter()
     }
     dependencies {
         classpath 'gradle.plugin.com.github.nwillc:vplugin:2.1.1',
