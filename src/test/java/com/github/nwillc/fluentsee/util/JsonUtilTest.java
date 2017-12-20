@@ -11,7 +11,7 @@
  * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.github.nwillc.fluentsee;
+package com.github.nwillc.fluentsee.util;
 
 
 import com.github.nwillc.contracts.UtilityClassContract;
@@ -30,6 +30,7 @@ public class JsonUtilTest extends UtilityClassContract {
         return JsonUtil.class;
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testToMap() throws Exception {
         final Map map = JsonUtil.toMap(JSON);
