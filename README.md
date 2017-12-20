@@ -9,7 +9,7 @@ Build it and run with the `--help` option:
 
 ```bash
 $ ./gradlew shadowJar
-$ java -jar build/libs/fluentsee-1.0.jar --help
+$ java -jar build/libs/fluentsee-1.1.jar --help
 Option (* = required)          Description
 ---------------------          -----------
 --help                         Get command line help.
