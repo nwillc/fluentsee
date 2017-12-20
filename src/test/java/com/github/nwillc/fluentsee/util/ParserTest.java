@@ -11,9 +11,10 @@
  * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.github.nwillc.fluentsee;
+package com.github.nwillc.fluentsee.util;
 
 import com.github.nwillc.contracts.UtilityClassContract;
+import com.github.nwillc.fluentsee.Entry;
 import com.github.nwillc.fluentsee.util.Parser;
 import org.junit.Before;
 import org.junit.Test;
