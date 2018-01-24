@@ -1,8 +1,8 @@
 
 plugins {
     id 'java-library'
-    id 'application'
-    id 'com.github.johnrengelman.shadow' version '2.0.2'
+//    id 'application'
+//    id 'com.github.johnrengelman.shadow' version '2.0.2'
 }
 
 repositories {
@@ -55,9 +55,24 @@ test {
     }
 }
 
-shadowJar {
-    baseName = "$project.name-$project.version"
-    mainClassName = 'com.github.nwillc.fluentsee.Main'
-    classifier = null
-    version = null
+jar {
+    manifest.attributes(
+            'Main-Class': 'com.github.nwillc.fluentsee.Main'
+    )
+}
+
+//shadowJar {
+//    baseName = "$project.name-$project.version"
+//    mainClassName = 'com.github.nwillc.fluentsee.Main'
+//    classifier = null
+//    version = null
+//}
+
+task copyToLib(type: Copy) {
+    from configurations.runtimeClasspath.incoming.files
+    into "mods"
+}
+
+task mJar(type: Exec) {
+    commandLine 'jar', '--create', '--file=foo.jar', '--main-class=com.github.nwillc.fluentsee.Main', '-C', 'build/classes/java/main', '.'
 }
